@@ -33,7 +33,8 @@ public class CharacterController : MonoBehaviour
             if (Input.GetKeyUp(KeyCode.Z))
             {
                 Debug.Log("대화창이 활성화 됩니다.");
-                talkPanel.SetActive(!talkPanel.activeInHierarchy);
+                TalkManager talk = FindObjectOfType<TalkManager>();
+                talk.ActiveTalkPanel(true);
             }
         }
 
@@ -63,12 +64,14 @@ public class CharacterController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.W))
         {
+            Debug.Log("W");
             value = 4;
             animator.SetInteger("direction", value);
             rigid.velocity += Vector2.up * speed * Time.deltaTime;
         }
         else if (Input.GetKey(KeyCode.A))
         {
+            Debug.Log("A");
             transform.localScale = new Vector3(1, 1, 1);
             value = 5;
             animator.SetInteger("direction", value);
@@ -76,12 +79,14 @@ public class CharacterController : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.S))
         {
+            Debug.Log("S");
             value = 6;
             animator.SetInteger("direction", value);
             rigid.velocity += Vector2.down * speed * Time.deltaTime;
         }
         else if (Input.GetKey(KeyCode.D))
         {
+            Debug.Log("D");
             transform.localScale = new Vector3(-1, 1, 1);
             value = 5;
             animator.SetInteger("direction", value);
@@ -115,8 +120,8 @@ public class CharacterController : MonoBehaviour
         if (collision.gameObject.CompareTag("NPC"))
         {
             NPCController npc = collision.gameObject.GetComponent<NPCController>();
-            npc.ActiveTalk(true);
-            npcScript.text = npc.talkScript;
+            npc.talkImage.SetActive(true);
+            
             isNpc = true;
         }
     }
@@ -140,8 +145,8 @@ public class CharacterController : MonoBehaviour
         if (collision.gameObject.CompareTag("NPC"))
         {
             NPCController npc = collision.gameObject.GetComponent<NPCController>();
-            npc.ActiveTalk(false);
-            talkPanel.SetActive(false);
+            npc.talkImage.SetActive(false);
+
             isNpc = false;
         }
     }

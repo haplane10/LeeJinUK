@@ -4,11 +4,5 @@ using UnityEngine;
 
 public class NPCController : MonoBehaviour
 {
-    [SerializeField] GameObject talkObj;
-    [Multiline] public string talkScript;
-
-    public void ActiveTalk(bool value)
-    {
-        talkObj.SetActive(value);
-    }
+    public GameObject talkImage;
 }
