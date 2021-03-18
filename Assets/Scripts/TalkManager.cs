@@ -12,8 +12,28 @@ public class TalkManager : MonoBehaviour
     [Multiline] public string[] NPCScripts;
     [Multiline] public string[] PlayerScripts;
 
-    public int currentIndex = 0;
+    public int currentIndex { get; set;}
     public bool isPlayerTurn = false;
+    public Button[] buttons; 
+
+    //public int GetCurrentIndex()
+    //{
+    //    return currentIndex;
+    //}
+
+    //public void SetCurrentIndex(int value)
+    //{
+    //    currentIndex = value;
+    //}
+
+    public void InitTalk()
+    {
+        currentIndex = 0;
+        foreach (Button btn in buttons)
+        {
+            btn.gameObject.SetActive(false);
+        }
+    }
 
     public void ActiveTalkPanel(bool value)
     {
@@ -58,13 +78,16 @@ public class TalkManager : MonoBehaviour
 
         isPlayerTurn = !isPlayerTurn;
 
-        if (currentIndex >= NPCScripts.Length)
+        if (currentIndex < NPCScripts.Length)
         {
-            ActiveTalkPanel(false);
+            ActiveTalkImage();
         }
         else
         {
-            ActiveTalkImage();
+            foreach (Button btn in buttons)
+            {
+                btn.gameObject.SetActive(true);
+            }
         }
     }
 }
