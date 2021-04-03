@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 4186536141794408}
   - component: {fileID: 50952265364592640}
   - component: {fileID: 70576461785968608}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Player_SwordMan 1
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

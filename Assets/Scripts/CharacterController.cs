@@ -37,27 +37,37 @@ public class CharacterController : MonoBehaviour
                 talk.ActiveTalkPanel(true);
             }
         }
+        else
+        {
+            if (Input.GetMouseButtonDown(1))  // 왼쪽 마우스 버튼
+            {
+                animator.SetTrigger("swordAttack");
+                //   animator.SetInteger("direction", value);
+            }
+        }
 
         if (Input.GetKeyUp(KeyCode.X))
         {
             Damage(10);
         }
+
+        
     }
 
     public void Damage(int value)
     {
         hp -= value;
-
+        hpSlider.value = hp;      
+        
         if (hp <= 0)
         {
-            Dead();
+            animator.SetTrigger("vanish");
+            GetComponent<BoxCollider2D>().enabled = false;
+            this.enabled = false;
+            return;
         }
-    }
 
-    private void Dead()
-    {
-        // 어떻게 할것인가?
-        Debug.Log("Dead");
+        animator.SetTrigger("hit");
     }
 
     private void Move()
@@ -141,9 +151,10 @@ public class CharacterController : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("Exit");
+        
         if (collision.gameObject.CompareTag("NPC"))
         {
+            Debug.Log("Exit");
             NPCController npc = collision.gameObject.GetComponent<NPCController>();
             npc.talkImage.SetActive(false);
 

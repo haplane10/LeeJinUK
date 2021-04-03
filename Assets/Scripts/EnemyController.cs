@@ -13,6 +13,7 @@ public class EnemyController : MonoBehaviour
     public CircleCollider2D circleCollider;
 
     bool isAttack = false;
+    bool isDead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -26,12 +27,29 @@ public class EnemyController : MonoBehaviour
         
     }
 
+    public void Damage(int value)
+    {
+        hp -= value;
+        slider.value = hp;
+
+        if (hp <= 0)
+        {
+            animator.SetInteger("Anim", 2);
+            isDead = true;
+            Destroy(gameObject, 1f);
+            return;
+        }
+
+        animator.SetTrigger("hit");
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (isAttack == false && collision.gameObject.CompareTag("Player"))
+        if (isDead == false && isAttack == false && collision.gameObject.CompareTag("Player"))
         {
             Vector2 moveVector = collision.transform.position - transform.position;
             rigidbody.velocity = moveVector.normalized * speed * Time.deltaTime;
+            transform.localScale = (moveVector.x > 0) ? new Vector3(-1, 1, 1) : Vector3.one;
             animator.SetInteger("Anim", 1);
         }
     }
@@ -47,7 +65,7 @@ public class EnemyController : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (isAttack == false && collision.gameObject.CompareTag("Player"))
+        if (isDead == false && isAttack == false && collision.gameObject.CompareTag("Player"))
         {
             isAttack = true;
             rigidbody.velocity = Vector2.zero;
